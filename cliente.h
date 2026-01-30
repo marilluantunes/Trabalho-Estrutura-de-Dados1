@@ -14,6 +14,15 @@ typedef struct Cliente {
 } Cliente;
 
 
+//--------------------- FUNÇÕES ----------------
+
+Cliente* criarHeadCliente();
+void inserirClienteInicio(Cliente *head,
+                           const char *cpf,
+                           const char *nome,
+                           const char *email,
+                           const char *telefone);
+
 
 
 
