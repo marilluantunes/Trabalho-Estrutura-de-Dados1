@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>   
 #include "cliente.h"
+#include <string.h>
 
 // ------------------------FUNCOES------------------------- 
 Cliente* criarHeadCliente(){
@@ -84,7 +85,8 @@ void menuClientes(Cliente *cabeça) {
         printf("\n=== MENU CLIENTES ===\n");
         printf("1. Adicionar cliente\n");
         printf("2. Listar clientes\n");
-        printf("3. Voltar\n");
+        printf("3. Remover cliente\n");
+        printf("4. Voltar\n");
         printf("Escolha: ");
         scanf(" %d", &opcao);
 
@@ -117,10 +119,48 @@ void menuClientes(Cliente *cabeça) {
             
         } else if (opcao == 2) {
             imprimirTodosClientes(cabeça);
-        } else if (opcao == 3) {
+        }
+        else if (opcao == 3){
+
+            char cpf_remover[12];
+            printf("Digite o cpf do cliente que deseja remover: ");
+            scanf(" %11s" , cpf_remover);
+
+            removerCliente(cpf_remover , cabeça);
+
+
+
+        } else if (opcao == 4) {
             printf("Voltando ao menu principal...\n");
         } else {
             printf("Opção inválida\n");
         }
-    } while (opcao != 3);
+    } while (opcao != 4);
+}
+
+
+void removerCliente(const char *cpf , Cliente *cabeça){
+    Cliente *anterior = cabeça;
+    Cliente *atual = cabeça -> next;
+
+    while( atual != NULL && strcmp(atual->cpf , cpf) != 0 ){
+        anterior = atual;
+        atual = atual -> next;
+    }
+
+    if (atual != NULL ){
+        anterior -> next = atual->next;
+
+        free(atual->cpf);
+        free(atual->nome);
+        free(atual->email);
+        free(atual->telefone);
+
+        free(atual);
+
+        printf("Cliente com cpf %s foi removido com sucesso" , cpf);
+    } 
+    else{
+        printf("Cliente com cpf %s nao foi encontrado" , cpf);
+    }
 }

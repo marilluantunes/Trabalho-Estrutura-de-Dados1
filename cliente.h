@@ -27,6 +27,8 @@ void imprimirTodosClientes(Cliente *cabeça);
 
 void menuClientes(Cliente *cabeça);
 
+void removerCliente(const char *cpf , Cliente *cabeça);
+
 
 
 
