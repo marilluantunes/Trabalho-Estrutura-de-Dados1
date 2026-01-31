@@ -23,6 +23,8 @@ void inserirClienteInicio(Cliente *head,
                            const char *email,
                            const char *telefone);
 
+void imprimirTodosClientes(Cliente *cabeça);                      
+
 
 
 

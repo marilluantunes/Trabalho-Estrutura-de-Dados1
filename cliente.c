@@ -50,6 +50,31 @@ void inserirClienteInicio(Cliente *head, const char *cpf, const char *nome, cons
 
 }
 
+void imprimirTodosClientes(Cliente *cabeça) {
+    if (cabeça == NULL){
+        printf("Erro: Lista nao iniciada\n");
+        return;
+    }
 
+    Cliente *atual = cabeça -> next;
+    int contador = 1;
+
+    if (atual == NULL){
+        printf("Lista vazia\n");
+        return;
+    }
+
+    printf("\n ---------Todos dos Clientes --------\n");
+
+    while (atual != NULL){
+        printf("\n---Cliente %d---\n", contador++);
+        printf("CPF: %s\n" , atual->cpf);
+        printf("Nome: %s\n" , atual->nome);
+        printf("Email: %s\n" , atual->email);
+        printf("Telefone: %s\n" , atual->telefone);
+        atual = atual->next;
+
+    }
+}
 
 
