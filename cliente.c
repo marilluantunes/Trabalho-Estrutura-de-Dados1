@@ -77,4 +77,50 @@ void imprimirTodosClientes(Cliente *cabeça) {
     }
 }
 
+void menuClientes(Cliente *cabeça) {
 
+    int opcao;
+    do {
+        printf("\n=== MENU CLIENTES ===\n");
+        printf("1. Adicionar cliente\n");
+        printf("2. Listar clientes\n");
+        printf("3. Voltar\n");
+        printf("Escolha: ");
+        scanf(" %d", &opcao);
+
+
+        if (opcao == 1) {
+
+            char cpf_temp[12];
+            char nome_temp[100];
+            char email_temp[100];
+            char telefone_temp[15];
+
+            printf("Digite o cpf: ");
+            scanf(" %11s", cpf_temp); 
+
+
+            printf("\nDigite o nome: ");
+            scanf(" %99[^\n]" , nome_temp);
+
+
+            printf("\nDigite o email: ");
+            scanf(" %99s" , email_temp);
+
+
+            printf("\nDigite o telefone: ");
+            scanf(" %14s" , telefone_temp);
+
+
+            inserirClienteInicio(cabeça , cpf_temp, nome_temp, email_temp, telefone_temp);
+
+            
+        } else if (opcao == 2) {
+            imprimirTodosClientes(cabeça);
+        } else if (opcao == 3) {
+            printf("Voltando ao menu principal...\n");
+        } else {
+            printf("Opção inválida\n");
+        }
+    } while (opcao != 3);
+}
