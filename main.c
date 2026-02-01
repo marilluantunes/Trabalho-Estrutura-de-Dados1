@@ -3,9 +3,9 @@
 
 
 int main(){
-    Cliente *cabeça = criarHeadCliente();
+    Cliente *cabeca = criarHeadCliente();
 
-    if (cabeça == NULL) {
+    if (cabeca == NULL) {
         printf("Erro: Não foi possível inicializar o sistema de clientes\n");
         return 1;
     }
@@ -22,7 +22,7 @@ int main(){
 
         switch(opcao){
             case 1:
-            menuClientes(cabeça);
+            menuClientes(cabeca);
             break;
 
             case 2:

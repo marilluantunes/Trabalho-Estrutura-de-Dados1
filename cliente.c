@@ -51,13 +51,13 @@ void inserirClienteInicio(Cliente *head, const char *cpf, const char *nome, cons
 
 }
 
-void imprimirTodosClientes(Cliente *cabeça) {
-    if (cabeça == NULL){
+void imprimirTodosClientes(Cliente *cabeca) {
+    if (cabeca == NULL){
         printf("Erro: Lista nao iniciada\n");
         return;
     }
 
-    Cliente *atual = cabeça -> next;
+    Cliente *atual = cabeca -> next;
     int contador = 1;
 
     if (atual == NULL){
@@ -78,7 +78,7 @@ void imprimirTodosClientes(Cliente *cabeça) {
     }
 }
 
-void menuClientes(Cliente *cabeça) {
+void menuClientes(Cliente *cabeca) {
 
     int opcao;
     do {
@@ -93,13 +93,13 @@ void menuClientes(Cliente *cabeça) {
 
         if (opcao == 1) {
 
-            char cpf_temp[12];
+            char cpf_temp[15];
             char nome_temp[100];
             char email_temp[100];
             char telefone_temp[15];
 
             printf("Digite o cpf: ");
-            scanf(" %11s", cpf_temp); 
+            scanf(" %14s", cpf_temp); 
 
 
             printf("\nDigite o nome: ");
@@ -114,19 +114,19 @@ void menuClientes(Cliente *cabeça) {
             scanf(" %14s" , telefone_temp);
 
 
-            inserirClienteInicio(cabeça , cpf_temp, nome_temp, email_temp, telefone_temp);
+            inserirClienteInicio(cabeca , cpf_temp, nome_temp, email_temp, telefone_temp);
 
             
         } else if (opcao == 2) {
-            imprimirTodosClientes(cabeça);
+            imprimirTodosClientes(cabeca);
         }
         else if (opcao == 3){
 
-            char cpf_remover[12];
+            char cpf_remover[15];
             printf("Digite o cpf do cliente que deseja remover: ");
-            scanf(" %11s" , cpf_remover);
+            scanf(" %14s" , cpf_remover);
 
-            removerCliente(cpf_remover , cabeça);
+            removerCliente(cpf_remover , cabeca);
 
 
 
@@ -139,9 +139,9 @@ void menuClientes(Cliente *cabeça) {
 }
 
 
-void removerCliente(const char *cpf , Cliente *cabeça){
-    Cliente *anterior = cabeça;
-    Cliente *atual = cabeça -> next;
+void removerCliente(const char *cpf , Cliente *cabeca){
+    Cliente *anterior = cabeca;
+    Cliente *atual = cabeca -> next;
 
     while( atual != NULL && strcmp(atual->cpf , cpf) != 0 ){
         anterior = atual;

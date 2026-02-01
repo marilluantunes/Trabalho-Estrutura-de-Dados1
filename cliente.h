@@ -23,11 +23,11 @@ void inserirClienteInicio(Cliente *head,
                            const char *email,
                            const char *telefone);
 
-void imprimirTodosClientes(Cliente *cabeça);
+void imprimirTodosClientes(Cliente *cabeca);
 
-void menuClientes(Cliente *cabeça);
+void menuClientes(Cliente *cabeca);
 
-void removerCliente(const char *cpf , Cliente *cabeça);
+void removerCliente(const char *cpf , Cliente *cabeca);
 
 
 

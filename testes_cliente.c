@@ -5,16 +5,16 @@
 
 int main() {
     
-    Cliente *cabeça = criarHeadCliente();
+    Cliente *cabeca = criarHeadCliente();
 
-    char cpf_temp[12];
+    char cpf_temp[15];
     char nome_temp[100];
     char email_temp[100];
     char telefone_temp[15];
 
     printf("--------CADASTRO CLIENTE-------\n");
     printf("Digite o cpf: ");
-    scanf(" %11s", cpf_temp); 
+    scanf(" %14s", cpf_temp); 
 
 
     printf("\nDigite o nome: ");
@@ -29,9 +29,9 @@ int main() {
     scanf(" %14s" , telefone_temp);
 
 
-    inserirClienteInicio(cabeça , cpf_temp, nome_temp, email_temp, telefone_temp);
+    inserirClienteInicio(cabeca , cpf_temp, nome_temp, email_temp, telefone_temp);
 
-    Cliente *c = cabeça->next;
+    Cliente *c = cabeca->next;
 
     printf("\n--- CLIENTE NA LISTA ---\n");
     printf("CPF: %s\n", c->cpf);
