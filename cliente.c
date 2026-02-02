@@ -3,8 +3,12 @@
 #include <string.h>   
 #include "cliente.h"
 #include <string.h>
+#include <ctype.h> //para o tolower
+
 
 // ------------------------FUNCOES------------------------- 
+
+//========================CRIAR CACEÇA DA LISTA=================================
 Cliente* criarHeadCliente(){
     Cliente *head;
     head = malloc(sizeof(Cliente));
@@ -17,6 +21,8 @@ Cliente* criarHeadCliente(){
     head->next = NULL;
     return head;
 }
+
+//===================INSERIR CLIENTE NO INICIO DA LISTA=========================
 
 void inserirClienteInicio(Cliente *head, const char *cpf_parametro, const char *nome_parametro, 
     const char *email_parametro , const char *telefone_parametro ){
@@ -54,6 +60,8 @@ void inserirClienteInicio(Cliente *head, const char *cpf_parametro, const char *
 
 }
 
+//======================IMPRIMIR TODOS OS CLIENTES==============================
+
 void imprimirTodosClientes(Cliente *cabeca) {
     if (cabeca == NULL){
         printf("Erro: Lista nao iniciada\n");
@@ -80,6 +88,8 @@ void imprimirTodosClientes(Cliente *cabeca) {
 
     }
 }
+
+//===========================EDITAR CLIENTE=====================================
 
 void editarCliente(const char *cpf_parametro , Cliente *cabeca){
 
@@ -191,6 +201,8 @@ void editarCliente(const char *cpf_parametro , Cliente *cabeca){
 
 }
 
+//===========================REMOVER CLIENTE====================================
+
 void removerCliente(const char *cpf , Cliente *cabeca){
     Cliente *anterior = cabeca;
     Cliente *atual = cabeca -> next;
@@ -217,6 +229,195 @@ void removerCliente(const char *cpf , Cliente *cabeca){
     }
 }
 
+//-------------------------=---BUSCAR CLIENTE-----------------------------------
+
+Cliente* buscar_cliente(Cliente* cabeca) { //a funcoo retorna um ponteiro para um nó da lista encadeada de clientes
+    int tipo;
+    char termo[100];
+    
+    printf("\n-------OPCOES DE BUSCA-------\n");
+    printf("1. Por nome\n");
+    printf("2. Por email\n");
+    printf("3. Por CPF\n");
+    printf("\nEscolha: ");
+    scanf(" %d", &tipo);
+
+    switch (tipo) {
+    case 1:
+    printf("\nDigite o nome (ou parte dele): ");
+    getchar();
+    scanf("%99[^\n]" , termo);
+    break;
+
+    case 2:
+    printf("\nDigite o e-mail (ou parte dele): ");
+    scanf(" %99s" , termo);
+    break;
+
+    case 3:
+    printf("\nDigite o CPF: ");
+    scanf(" %99s" , termo);
+    break;
+
+    default:
+        printf("\nOpção inválida.\n");
+        return NULL;
+}
+
+    
+    // vetor de ponteiros, cada posicao apontara pra uma cecula(struct cliente) na lista de clientes
+    Cliente* resultados[100];
+    int count = 0;
+    
+    // converte termo para minúsculas para nome e email 
+    char termo_lower[100];
+    if (tipo == 1 || tipo == 2) {
+        for (int i = 0; termo[i] != '\0'; i++) {
+            termo_lower[i] = tolower(termo[i]);
+        }
+        termo_lower[strlen(termo)] = '\0'; //coloca o caracter '\0' no fim da 
+    }
+        
+    //percorre lista
+    Cliente* atual = cabeca->next;
+
+    while (atual != NULL) {
+        int encontrou = 0;
+  //----------------------------------------------------------------------------      
+        switch (tipo) {
+            case 1: 
+                {   //converte o nome na struckt para minusculo 
+                    char nome_lower[100];
+                    for (int i = 0; atual->nome[i]; i++) {
+                        nome_lower[i] = tolower(atual->nome[i]);
+                    }
+                    nome_lower[strlen(atual->nome)] = '\0'; //coloca o caractere '\0' no fim da string
+                    
+                    if (strstr(nome_lower, termo_lower)) {
+                        encontrou = 1;
+                    }
+                }
+                break;
+                
+            case 2: 
+                {
+                    char email_lower[100];
+                    for (int i = 0; atual->email[i]; i++) {
+                        email_lower[i] = tolower(atual->email[i]);
+                    }
+                    email_lower[strlen(atual->email)] = '\0';
+                    
+                    if (strstr(email_lower, termo_lower) != NULL) {
+                        encontrou = 1;
+                    }
+                }
+                break;
+                
+            case 3: // CPF (substring, mas geralmente busca exata)
+                if (strstr(atual->cpf, termo) != NULL) {
+                    encontrou = 1;
+                }
+                break;
+        }
+ //-----------------------------------------------------------------------------       
+        if (encontrou) {
+            //vetor de ponteiros
+            resultados[count] = atual;
+            count=count+1;
+        }
+        
+        atual = atual->next;
+    }
+    
+    // funcao que processa os resultados
+    return processar_resultados(resultados, count, tipo);
+}
+
+
+Cliente* processar_resultados(Cliente* resultados[], int count, int tipo_busca) {
+    if (count == 0) {
+        printf("\n Nenhum cliente encontrado.\n");
+        return NULL;
+    }
+    
+    printf("\nEncontrados %d cliente(s):\n", count);
+    
+    // mostra lista de encontrados
+    for (int i = 0; i < count; i++) {
+        printf("%2d. ", i + 1);
+        
+        switch (tipo_busca) {
+            case 1: // buscou por nome
+                printf("Nome: %-30s | CPF: %s\n", resultados[i]->nome, resultados[i]->cpf);
+                break;
+            case 2: // buscou por email
+                printf("Email: %-30s | CPF: %s\n", resultados[i]->email, resultados[i]->cpf);
+                break;
+            case 3: // buscou por CPF
+                printf("CPF: %-15s | Nome: %s\n", resultados[i]->cpf, resultados[i]->nome);
+                break;
+        }
+    }
+    
+    // se so tem 1, mostra direto
+    if (count == 1) {
+        printf("\nMostrando o unico cliente encontrado:\n");
+        mostrar_cliente_completo(resultados[0]);
+        return resultados[0];
+    }
+    
+    // se tiver maais de um, pede confirmacao EXATA
+    return pedir_confirmacao_exata(resultados, count);
+}
+
+
+Cliente* pedir_confirmacao_exata(Cliente* resultados[], int count) { //count = quants (posicoes)ponteiros existem no vetor
+    char confirmacao[100];
+
+    printf("\nDigite o CPF EXATO do cliente que deseja visualizar: ");
+    scanf(" %99s" , confirmacao);
+
+    for (int i = 0; i < count; i++) {
+        if (strcmp(resultados[i]->cpf, confirmacao) == 0) {
+            printf("\nCliente confirmado! Mostrando dados:\n");
+            mostrar_cliente_completo(resultados[i]);
+            return resultados[i];
+        }
+    }
+
+    printf("\nNenhum cliente possui o CPF '%s'.\n", confirmacao);
+    return NULL;
+}
+
+
+void mostrar_cliente_completo(Cliente* cliente) {
+    if (!cliente) {
+        printf("Cliente inválido!\n");
+        return;
+    }
+    
+    printf("\n==================================================\n");
+    printf("-----------------FICHA DO CLIENTE-------------------\n");
+    printf("====================================================\n");
+    printf("----------------------------------------------------\n");
+    printf("NOME: %s\n", cliente->nome);
+    printf("CPF: %s\n", cliente->cpf);
+    printf("E-MAIL: %s\n", cliente->email);
+    printf("TELEFONE: %s\n", cliente->telefone);
+    printf("---------------------------------------------------\n");
+    printf("===================================================\n");
+    
+    printf("\nPressione ENTER para continuar...");
+    getchar(); 
+
+}
+
+
+
+
+
+//--------------------------------  MENU CLIENTE ===============================
+
 void menuClientes(Cliente *cabeca) {
 
     int opcao;
@@ -226,7 +427,8 @@ void menuClientes(Cliente *cabeca) {
         printf("2. Listar clientes\n");
         printf("3. Remover cliente\n");
         printf("4. Editar Cliente\n");
-        printf("5. Voltar\n");
+        printf("5. Buscar Cliente\n");
+        printf("6. Voltar\n");
         printf("Escolha: ");
         scanf(" %d", &opcao);
 
@@ -269,7 +471,7 @@ void menuClientes(Cliente *cabeca) {
             removerCliente(cpf_remover , cabeca);
         } 
         
-        else if (opcao == 4) {
+        else if (opcao == 4){  
 
             printf("\nDigite o CPF do cliente que deseja editar: ");
             char cpf_editar[15];
@@ -278,7 +480,12 @@ void menuClientes(Cliente *cabeca) {
 
         }
 
-        else if (opcao == 5) {
+        else if (opcao == 5){ //buscar cliente
+
+            buscar_cliente(cabeca);
+        } 
+
+        else if (opcao == 6) {
             printf("Voltando ao menu principal...\n");
         }
         
@@ -287,6 +494,6 @@ void menuClientes(Cliente *cabeca) {
         }
     } 
     
-    while (opcao != 4);
+    while (opcao != 6);
 }
 

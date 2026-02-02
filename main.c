@@ -5,6 +5,7 @@
 int main(){
     Cliente *cabeca = criarHeadCliente();
 
+
     if (cabeca == NULL) {
         printf("Erro: Não foi possível inicializar o sistema de clientes\n");
         return 1;

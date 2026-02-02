@@ -31,8 +31,10 @@ void removerCliente(const char *cpf , Cliente *cabeca);
 
 void editarCliente(const char *cpf_parametro , Cliente *cabeca);
 
-
-
+Cliente* buscar_cliente(Cliente* cabeca);
+Cliente* processar_resultados(Cliente* resultados[], int count, int tipo_busca);
+Cliente* pedir_confirmacao_exata(Cliente* resultados[], int count);
+void mostrar_cliente_completo(Cliente* cliente);
 
 
 
