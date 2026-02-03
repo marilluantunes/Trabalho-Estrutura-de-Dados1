@@ -1,17 +1,9 @@
-#include <funcoes.h>
+#include "produtos.h"
 
-typedef struct _produto{
-    char nome[50];
-    int quantidade;
-    int codigo;
-    float preco;
-}Produto;
-
-typedef struct estoque_completo{
-    Produto *produto;
-    struct estoque_completo *prev;
-    struct estoque_completo *prox;
-}Estoque;
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>   
+#include <string.h>
 
 Produto* busca_pelo_codigo(int x, Estoque *ptr){
     printf("teste0\n");
@@ -134,18 +126,20 @@ void cadastrar_produto(Estoque *ptr){                 //o *head deve ser no inic
 }
 
 void exibir_lista_de_estoque(Estoque *ptr){
-    if (ptr-> produto == NULL){printf("Estoque vazio\n");
+    if (ptr == NULL)
         return;
+
+    if (ptr->produto != NULL){
+        Produto *p = ptr->produto;
+        printf("Produto: %s\n", p->nome);
+        printf("Quantidade: %d\n", p->quantidade);
+        printf("Preco: R$%.2f\n", p->preco);
+        printf("Codigo: %d\n\n", p->codigo);
     }
-    else{
-        Produto *ptr2 = ptr->produto;
-        printf("Produto: %s\n", ptr2->nome);
-        printf("Quantidade: %d\n", ptr2->quantidade);
-        printf("Preco: R$%.2f\n", ptr2-> preco);
-        printf("Codigo: %d\n\n\n", ptr2-> codigo);
-        if(ptr->prox != NULL) exibir_lista_de_estoque(ptr->prox);
-        }
-    }
+
+    exibir_lista_de_estoque(ptr->prox);
+}
+
 
 void editar_dados_do_produto(Estoque* ptr)
 {
@@ -244,14 +238,73 @@ Estoque* retirar_produtos(Estoque* ptr)
     }
 }
 
-/*
+/* 
 int main(){
     Estoque *ptr = criar_estoque(); //este deve estar na main e devera conversar com as funcoes subsequentes
     cadastrar_produto(ptr);
-    printf("testando");
+    printf("testando\n");
     exibir_lista_de_estoque(ptr);
-    retirar_produtos(ptr);
-    exibir_lista_de_estoque(ptr); //este sempre vai devolver a nova cabeca ou NULL
+   // retirar_produtos(ptr);
+   // exibir_lista_de_estoque(ptr); //este sempre vai devolver a nova cabeca ou NULL
     
     return 0;
-}*/
+}
+
+*/
+
+/* 
+
+int main() {
+    Estoque *e1 = criar_estoque();
+    Estoque *e2 = criar_estoque();
+    Estoque *e3 = criar_estoque();
+
+    Produto *p1 = malloc(sizeof(Produto));
+    Produto *p2 = malloc(sizeof(Produto));
+    Produto *p3 = malloc(sizeof(Produto));
+
+    strcpy(p1->nome, "arroz");
+    p1->codigo = 1;
+    p1->quantidade = 10;
+    p1->preco = 22.0;
+
+    strcpy(p2->nome, "feijao");
+    p2->codigo = 2;
+    p2->quantidade = 30;
+    p2->preco = 32.0;
+
+    strcpy(p3->nome, "acucar");
+    p3->codigo = 3;
+    p3->quantidade = 15;
+    p3->preco = 18.0;
+
+    e1->produto = p1;
+    e2->produto = p2;
+    e3->produto = p3;
+
+    e1->prox = e2;
+    e2->prev = e1;
+    e2->prox = e3;
+    e3->prev = e2;
+
+    Produto *r1 = busca_pelo_codigo(1, e1);
+    if (r1) printf("-----ACHOU-------%s\n", r1->nome);
+    else printf("Nao achou\n");
+
+    Produto *r2 = busca_pelo_codigo(2, e1);
+    if (r2) printf("-----ACHOU-------%s\n", r2->nome);
+    else printf("Nao achou\n");
+
+    Produto *r3 = busca_pelo_codigo(3, e1);
+    if (r3) printf("------ACHOU--------%s\n", r3->nome);
+    else printf("Nao achou\n");
+
+    Produto *r4 = busca_pelo_codigo(999, e1);
+    if (r4) printf("-----achou------=%s\n", r4->nome);
+    else printf("------NAO ACHOU--------\n");
+
+    return 0;
+}
+
+*/
+
