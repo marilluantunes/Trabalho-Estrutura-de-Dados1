@@ -2,9 +2,11 @@
 #include <stdlib.h>
 #include <string.h>   
 #include "cliente.h"
+#include "carrinho.h"
 #include "produtos.h"  //comentar
 #include <string.h>
 #include <ctype.h> //para o tolower
+
 
 //========================CRIAR CACEÇA DA LISTA=================================
 Cliente* criarHeadCliente(){
@@ -53,14 +55,16 @@ void inserirClienteInicio(Cliente *head, const char *cpf_parametro, const char *
 
 // ----------CRIA CARRINHO VAZIO PARA O NOVO CLIENTE -------------
 
-    novo->carrinho = malloc(sizeof(Carrinho)); //comentar
-    if (novo->carrinho == NULL){              //comentar
-        printf("Erro ao alocar memoria\n");   //comentar
-        free(novo);                          //comentar
-        return;                             //comentar
+    novo->carrinho = malloc(sizeof(Carrinho));
+    if (novo->carrinho == NULL){
+        printf("Erro ao alocar memoria\n");
+        free(novo);
+        return;
     }
-    novo->carrinho->prox = NULL;          //comentar
 
+    novo->carrinho->produto = NULL;
+    novo->carrinho->qtd = 0;
+    novo->carrinho->next = NULL;
 
     novo->next = head->next;
     head->next = novo;
@@ -451,7 +455,7 @@ void menuClientes(Cliente *cabeca) {
         printf("3.  Remover\n");
         printf("4.  Editar\n");
         printf("5.  Buscar\n");
-        printf("6.  Voltar\n");
+        printf("0.  Voltar\n");
         printf("-----------------------------------\n");
         printf("Escolha uma opcao: ");
         scanf(" %d", &opcao);
@@ -508,7 +512,7 @@ void menuClientes(Cliente *cabeca) {
             buscar_cliente(cabeca);
         } 
 
-        else if (opcao == 6) {
+        else if (opcao == 0) {
             printf("Voltando ao menu principal...\n");
         }
         
@@ -517,6 +521,6 @@ void menuClientes(Cliente *cabeca) {
         }
     } 
     
-    while (opcao != 6);
+    while (opcao != 0);
 }
 

@@ -84,8 +84,8 @@ void adicionar_item_cliente(Cliente *cliente , Estoque *estoque){
 
     novo_item->produto = item_estoque;
     novo_item->qtd = quantidade_desejada;
-    novo_item->next = cliente->carrinho;
-    cliente->carrinho = novo_item;
+    novo_item->next = cliente->carrinho->next;
+    cliente->carrinho->next = novo_item;
 
 
     printf("\nProduto adicionado!!!\n");
@@ -103,10 +103,13 @@ void listarItemCliente(Cliente*cabeca){
     }
 
     while(carrinho_do_cliente != NULL){
-        printf("Nome Item: %s\n" , carrinho_do_cliente->produto->nome);
+
+        printf("\n---------------------------------------------------");
+        printf("\nNome Item: %s\n" , carrinho_do_cliente->produto->nome);
         printf("Codigo Item: %d\n" , carrinho_do_cliente->produto->codigo);
         printf("Quantidade de Itens: %d\n", carrinho_do_cliente->qtd);
         carrinho_do_cliente = carrinho_do_cliente->next;
+        printf("---------------------------------------------------\n");
 }
 
 }
@@ -120,7 +123,7 @@ void menuCarrinho(Cliente *cliente, Estoque *estoque) {
         printf("2. Listar carrinho\n");
         printf("0. Voltar\n");
         printf("Escolha: ");
-        scanf("%d", &opcao);
+        scanf(" %d", &opcao);
         
         switch (opcao) {
             case 1:
