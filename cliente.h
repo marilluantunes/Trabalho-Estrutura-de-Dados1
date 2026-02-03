@@ -8,8 +8,8 @@ typedef struct Cliente {
     char *nome;
     char *email;
     char *telefone;
-
     struct Cliente *next;
+    Carrinho *carrinho;   
 
 } Cliente;
 

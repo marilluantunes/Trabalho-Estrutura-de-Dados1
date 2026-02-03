@@ -2,11 +2,9 @@
 #include <stdlib.h>
 #include <string.h>   
 #include "cliente.h"
+#include "produtos.h" 
 #include <string.h>
 #include <ctype.h> //para o tolower
-
-
-// ------------------------FUNCOES------------------------- 
 
 //========================CRIAR CACEÇA DA LISTA=================================
 Cliente* criarHeadCliente(){
@@ -52,6 +50,17 @@ void inserirClienteInicio(Cliente *head, const char *cpf_parametro, const char *
 
     novo->telefone = malloc(strlen(telefone_parametro) +1 );
     strcpy(novo->telefone, telefone_parametro);
+
+// ----------CRIA CARRINHO VAZIO PARA O NOVO CLIENTE -------------
+
+    novo->carrinho = malloc(sizeof(Carrinho));
+    if (novo->carrinho == NULL){
+        printf("Erro ao alocar memoria\n");
+        free(novo);
+        return;
+    }
+    novo->carrinho->prox = NULL;
+
 
     novo->next = head->next;
     head->next = novo;
@@ -397,7 +406,7 @@ void mostrar_cliente_completo(Cliente* cliente) {
     }
     
     printf("\n==================================================\n");
-    printf("-----------------FICHA DO CLIENTE-------------------\n");
+    printf("-----------------FICHA DO CLIENTE-----------------\n");
     printf("====================================================\n");
     printf("----------------------------------------------------\n");
     printf("NOME: %s\n", cliente->nome);
