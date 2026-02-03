@@ -111,3 +111,25 @@ void listarItemCliente(Cliente*cabeca){
 
 }
 
+
+void menuCarrinho(Cliente *cliente, Estoque *estoque) {
+    int opcao;
+    do {
+        printf("\n=== CARRINHO ===\n");
+        printf("1. Adicionar item\n");
+        printf("2. Listar carrinho\n");
+        printf("0. Voltar\n");
+        printf("Escolha: ");
+        scanf("%d", &opcao);
+        
+        switch (opcao) {
+            case 1:
+                adicionar_item_cliente(cliente, estoque);
+                break;
+            case 2:
+                listarItemCliente(cliente);
+                break;
+        }
+    } while (opcao != 0);
+}
+
