@@ -1,5 +1,5 @@
 #include "funcoes.h"
-
+#include "structs.h"
 
 Produto* busca_pelo_codigo(int x, Estoque *ptr){
     
