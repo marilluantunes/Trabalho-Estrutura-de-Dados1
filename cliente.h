@@ -3,6 +3,8 @@
 
 //----------- STRUCT ------------------
 
+typedef struct carrinho Carrinho;
+
 typedef struct Cliente {
     char *cpf;
     char *nome;
