@@ -9,7 +9,8 @@ typedef struct Cliente {
     char *email;
     char *telefone;
     struct Cliente *next;
-    Carrinho *carrinho;   
+
+    Carrinho *carrinho;   //comentar
 
 } Cliente;
 

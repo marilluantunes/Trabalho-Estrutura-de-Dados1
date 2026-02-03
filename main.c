@@ -5,7 +5,6 @@
 int main(){
     Cliente *cabeca = criarHeadCliente();
 
-
     if (cabeca == NULL) {
         printf("Erro: Não foi possível inicializar o sistema de clientes\n");
         return 1;
@@ -15,10 +14,11 @@ int main(){
 
     do{
         printf("\n -------- MENU PRINCIPAL ------\n");
-        printf("1. Sistema dos Clientes\n");
-        printf("2. Sistemas dos Produtos\n");
+        printf("1. Sistema Clientes\n");
+        printf("2. Sistemas Produtos\n");
         printf("3. Modo Compra\n");
         printf("4. Sair\n");
+        printf("\nEscolha: ");
         scanf(" %d" , &opcao);
 
         switch(opcao){
@@ -39,7 +39,7 @@ int main(){
             break;
 
             default:
-            printf("\nOpção Inválida\n");
+            printf("\nOpcao Invalida\n");
 
 
         }

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>   
 #include "cliente.h"
-#include "produtos.h" 
+#include "produtos.h"  //comentar
 #include <string.h>
 #include <ctype.h> //para o tolower
 
@@ -53,21 +53,23 @@ void inserirClienteInicio(Cliente *head, const char *cpf_parametro, const char *
 
 // ----------CRIA CARRINHO VAZIO PARA O NOVO CLIENTE -------------
 
-    novo->carrinho = malloc(sizeof(Carrinho));
-    if (novo->carrinho == NULL){
-        printf("Erro ao alocar memoria\n");
-        free(novo);
-        return;
+    novo->carrinho = malloc(sizeof(Carrinho)); //comentar
+    if (novo->carrinho == NULL){              //comentar
+        printf("Erro ao alocar memoria\n");   //comentar
+        free(novo);                          //comentar
+        return;                             //comentar
     }
-    novo->carrinho->prox = NULL;
+    novo->carrinho->prox = NULL;          //comentar
 
 
     novo->next = head->next;
     head->next = novo;
 
+    printf("\n---------------------------------\n");
     printf("Cliente adicionado com sucesso!\n");
-
+    printf("---------------------------------\n\n");
 }
+
 
 //======================LISTAR TODOS OS CLIENTES==============================
 
@@ -93,16 +95,15 @@ void imprimirTodosClientes(Cliente *cabeca) {
         t = t->next;
     }
 
-    printf("%d Cliente%s Cadastrado%s\n", total, total == 1 ? "" : "s", total == 1 ? "" : "s");
-
-    printf("\n -----------------\n");
+    printf("\n========== %d Cliente%s Cadastrado%s=========\n" ,total, total == 1 ? "" : "s", total == 1 ? "" : "s" );
 
     while (atual != NULL){
-        printf("\n---Cliente %d---\n", contador++);
-        printf("CPF: %s\n" , atual->cpf);
-        printf("Nome: %s\n" , atual->nome);
-        printf("Email: %s\n" , atual->email);
-        printf("Telefone: %s\n" , atual->telefone);
+        printf("\n-------Cliente %d----------\n", contador++);
+        printf("\n|      CPF: %s\n" , atual->cpf);
+        printf("|      Nome: %s\n" , atual->nome);
+        printf("|      Email: %s\n" , atual->email);
+        printf("|      Telefone: %s\n" , atual->telefone);
+        printf("-------------------------\n");
         atual = atual->next;
 
     }
@@ -119,10 +120,12 @@ void editarCliente(const char *cpf_parametro , Cliente *cabeca){
             int opcao;
             char temporario[100];
 
+            printf("\n-----------CLIENTE ENCONTRADO----------\n");
+            printf("CPF: %s\n" , atual->cpf);
+            printf("---------------------------------------\n");
+
             do {
-                printf("\n-----------CLIENTE ENCONTRADO----------\n");
-                printf("CPF: %s\n" , atual->cpf);
-                printf("---------------------------------------\n");
+
                 printf("---------------Opcoes:-----------------\n");
                 printf("1. Editar nome: %s\n" , atual->nome);
                 printf("2. Editar email: %s\n" , atual->email);
@@ -147,9 +150,9 @@ void editarCliente(const char *cpf_parametro , Cliente *cabeca){
                         else {
                             atual->nome = novo_nome;
                             strcpy(atual->nome , temporario);
-                            printf("-------------------------------");
+                            printf("-------------------------------\n");
                             printf("Nome atualizado com sucesso!\n");
-                            printf("-------------------------------");
+                            printf("-------------------------------\n");
                         }
                     }
 
@@ -169,9 +172,9 @@ void editarCliente(const char *cpf_parametro , Cliente *cabeca){
                         else {
                             atual->email = novo_email;
                             strcpy(atual->email , temporario);
-                            printf("-------------------------------");
+                            printf("-------------------------------\n");
                             printf("Email atualizado com sucesso!\n");
-                            printf("-------------------------------");
+                            printf("-------------------------------\n");
                         }
                         break;
                     }
@@ -190,9 +193,9 @@ void editarCliente(const char *cpf_parametro , Cliente *cabeca){
                         else{
                             atual->telefone = novo_telefone;
                             strcpy(atual->telefone, temporario);
-                            printf("----------------------------------");
+                            printf("----------------------------------\n");
                             printf("Telefone atualizado com sucesso!\n");
-                            printf("----------------------------------");
+                            printf("----------------------------------\n");
                         }
                     }
                     break;
@@ -216,7 +219,7 @@ void editarCliente(const char *cpf_parametro , Cliente *cabeca){
         atual = atual->next;
     }
 
-    printf("Cliente com CPF %s não encontrado.\n" , cpf_parametro);
+    printf("\nCliente com CPF %s nao encontrado.\n" , cpf_parametro);
 
 }
 
@@ -241,10 +244,10 @@ void removerCliente(const char *cpf , Cliente *cabeca){
 
         free(atual);
 
-        printf("Cliente com cpf %s foi removido com sucesso" , cpf);
+        printf("\nCliente com cpf %s foi removido com sucesso!" , cpf);
     } 
     else{
-        printf("Cliente com cpf %s nao foi encontrado" , cpf);
+        printf("\nCliente com cpf %s nao foi encontrado!" , cpf);
     }
 }
 
@@ -367,10 +370,10 @@ Cliente* processar_resultados(Cliente* resultados[], int count, int tipo_busca) 
         
         switch (tipo_busca) {
             case 1: // buscou por nome
-                printf("Nome: %-30s | CPF: %s\n", resultados[i]->nome, resultados[i]->cpf);
+                printf("Nome: %-20s | CPF: %s\n", resultados[i]->nome, resultados[i]->cpf);
                 break;
             case 2: // buscou por email
-                printf("Email: %-30s | CPF: %s\n", resultados[i]->email, resultados[i]->cpf);
+                printf("Email: %-20s | CPF: %s\n", resultados[i]->email, resultados[i]->cpf);
                 break;
             case 3: // buscou por CPF
                 printf("CPF: %-15s | Nome: %s\n", resultados[i]->cpf, resultados[i]->nome);
@@ -415,16 +418,14 @@ void mostrar_cliente_completo(Cliente* cliente) {
         return;
     }
     
-    printf("\n==================================================\n");
-    printf("-----------------FICHA DO CLIENTE-----------------\n");
-    printf("====================================================\n");
-    printf("----------------------------------------------------\n");
+    printf("\n-----------------DADOS DO CLIENTE-----------------\n");
+    printf("--------------------------------------------------\n");
     printf("NOME: %s\n", cliente->nome);
     printf("CPF: %s\n", cliente->cpf);
     printf("E-MAIL: %s\n", cliente->email);
     printf("TELEFONE: %s\n", cliente->telefone);
-    printf("---------------------------------------------------\n");
-    printf("===================================================\n");
+    printf("--------------------------------------------------\n");
+
     
     printf("\nPressione ENTER para continuar...");
     getchar(); 
@@ -441,14 +442,18 @@ void menuClientes(Cliente *cabeca) {
 
     int opcao;
     do {
-        printf("\n=== MENU CLIENTES ===\n");
-        printf("1. Adicionar cliente\n");
-        printf("2. Listar clientes\n");
-        printf("3. Remover cliente\n");
-        printf("4. Editar Cliente\n");
-        printf("5. Buscar Cliente\n");
-        printf("6. Voltar\n");
-        printf("Escolha: ");
+
+        printf("\n===================================\n");
+        printf("           MENU CLIENTES           \n");
+        printf("===================================\n");
+        printf("1.  Adicionar\n");
+        printf("2.  Listar\n");
+        printf("3.  Remover\n");
+        printf("4.  Editar\n");
+        printf("5.  Buscar\n");
+        printf("6.  Voltar\n");
+        printf("-----------------------------------\n");
+        printf("Escolha uma opcao: ");
         scanf(" %d", &opcao);
 
 
@@ -459,9 +464,8 @@ void menuClientes(Cliente *cabeca) {
             char email_temp[100];
             char telefone_temp[20];
 
-            printf("Digite o cpf: ");
+            printf("\nDigite o cpf: ");
             scanf(" %14s", cpf_temp); 
-
 
             printf("\nDigite o nome: ");
             scanf(" %99[^\n]" , nome_temp);
@@ -484,7 +488,7 @@ void menuClientes(Cliente *cabeca) {
         else if (opcao == 3){
 
             char cpf_remover[15];
-            printf("Digite o cpf do cliente que deseja remover: ");
+            printf("\nDigite o cpf do cliente que deseja remover: ");
             scanf(" %14s" , cpf_remover);
 
             removerCliente(cpf_remover , cabeca);
@@ -509,7 +513,7 @@ void menuClientes(Cliente *cabeca) {
         }
         
         else {
-            printf("Opção inválida\n");
+            printf("Opcao invalida\n");
         }
     } 
     
