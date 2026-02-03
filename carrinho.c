@@ -1,12 +1,13 @@
 #include <stdio.h>
-#include "carrinho.h"
-#include "produtos.h"
 #include "cliente.h"
-
 #include <stdlib.h>
 #include <string.h>   
 #include <string.h>
 #include <ctype.h>
+#include "carrinho.h"
+#include "produtos.h"
+
+
 
 void adicionar_item_cliente(Cliente *cliente , Estoque *estoque){
     if(cliente == NULL){
@@ -51,7 +52,7 @@ void adicionar_item_cliente(Cliente *cliente , Estoque *estoque){
 
     //verificar se item ja tem no carrinho;
 
-    Carrinho *item_carrinho = cliente->carrinho;
+    Carrinho *item_carrinho = cliente->carrinho->next;
 
 
     while(item_carrinho != NULL){
@@ -89,6 +90,24 @@ void adicionar_item_cliente(Cliente *cliente , Estoque *estoque){
 
     printf("\nProduto adicionado!!!\n");
     
+
+}
+
+
+void listarItemCliente(Cliente*cabeca){
+    Carrinho *carrinho_do_cliente = cabeca->carrinho->next;
+
+    if (carrinho_do_cliente == NULL) {
+        printf("O carrinho esta vazio.\n");
+        return;
+    }
+
+    while(carrinho_do_cliente != NULL){
+        printf("Nome Item: %s\n" , carrinho_do_cliente->produto->nome);
+        printf("Codigo Item: %d\n" , carrinho_do_cliente->produto->codigo);
+        printf("Quantidade de Itens: %d\n", carrinho_do_cliente->qtd);
+        carrinho_do_cliente = carrinho_do_cliente->next;
+}
 
 }
 

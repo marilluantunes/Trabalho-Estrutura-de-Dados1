@@ -10,8 +10,15 @@ typedef struct carrinho {
     struct carrinho *next;
 } Carrinho;
 
+typedef struct Cliente Cliente;
 
-void adicionar_item_cliente(Cliente *cliente , Estoque *estoque){
+
+void adicionar_item_cliente(Cliente *cliente , Estoque *estoque);
+void listarItemCliente(Cliente*cabeca);
+
+
+
+
 
 
 
