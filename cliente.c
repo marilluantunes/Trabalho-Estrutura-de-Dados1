@@ -69,7 +69,7 @@ void inserirClienteInicio(Cliente *head, const char *cpf_parametro, const char *
 
 }
 
-//======================IMPRIMIR TODOS OS CLIENTES==============================
+//======================LISTAR TODOS OS CLIENTES==============================
 
 void imprimirTodosClientes(Cliente *cabeca) {
     if (cabeca == NULL){
@@ -79,13 +79,23 @@ void imprimirTodosClientes(Cliente *cabeca) {
 
     Cliente *atual = cabeca -> next;
     int contador = 1;
+    int total = 0;
 
     if (atual == NULL){
         printf("Lista vazia\n");
         return;
     }
+    
+    // conta o total de clientes
+    Cliente *t = atual;
+    while (t != NULL){
+        total++;
+        t = t->next;
+    }
 
-    printf("\n ---------Todos dos Clientes --------\n");
+    printf("%d Cliente%s Cadastrado%s\n", total, total == 1 ? "" : "s", total == 1 ? "" : "s");
+
+    printf("\n -----------------\n");
 
     while (atual != NULL){
         printf("\n---Cliente %d---\n", contador++);
