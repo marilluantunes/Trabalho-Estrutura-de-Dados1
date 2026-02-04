@@ -23,7 +23,7 @@ void menuProdutos(Estoque *estoque);
 
 // ============== CARRINHO ==============
 void adicionar_item_cliente(Cliente *cliente, Estoque *estoque);
-void listarItemCliente(Cliente *cabeca);
+Cliente* listarItemCliente(Cliente *cabeca);
 void menuCarrinho(Cliente *cliente, Estoque *estoque);
 
 // ============== CLIENTE ==============
