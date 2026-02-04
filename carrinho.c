@@ -95,14 +95,14 @@ void adicionar_item_cliente(Cliente *cliente , Estoque *estoque){
 }
 
 
-void listarItemCliente(Cliente*cabeca){
+Cliente* listarItemCliente(Cliente*cabeca){
     Carrinho *carrinho_do_cliente = cabeca->carrinho->next;
     int total_itens = 0;
     float valor_total = 0.00;
 
     if (carrinho_do_cliente == NULL) {
         printf("O carrinho esta vazio.\n");
-        return;
+        return NULL;
     }
     
     Carrinho *calcular = carrinho_do_cliente;
@@ -127,8 +127,70 @@ void listarItemCliente(Cliente*cabeca){
         printf("------------------------------------------------------\n");
         carrinho_do_cliente = carrinho_do_cliente->next;
 }
+    return cabeca;
 
 }
+
+void remover(Carrinho* carrinho, int i){
+    Carrinho *anterior = carrinho;
+    carrinho = carrinho->next;
+    while (carrinho->produto->codigo != i){
+        carrinho = carrinho->next;
+        anterior = anterior->next;
+    }
+    //se for o ultimo da lista com mais de um
+    if(carrinho->next == NULL) {anterior->next = NULL;
+        return;}
+    else{
+        anterior->next = carrinho->next;
+    }
+    printf("Removido com sucesso!\n");
+    //o resto sempre estara no meio de algo entao
+
+    
+}
+
+void remover_item(Cliente * cliente, Estoque* estoque)
+{
+    int i, j;
+    if(listarItemCliente(cliente) == NULL) return; //depois disso sabemos que sempre tera valor
+    printf("\nDigite o codigo de qual item gostaria de remover do carrinho\n");
+    getchar();
+    scanf(" %d", &i);
+    Produto *produto = busca_pelo_codigo(i, estoque);
+    if (produto == NULL) {
+        printf("Codigo invalido\n");
+        return remover_item(cliente, estoque);
+    }
+    printf("Gostaria de:\n::[1]remove-lo por completo; ou\n::[2]algumas quantidades?\n");
+    switch(i){
+        case 1:
+            remover(cliente->carrinho, i);
+            break;
+
+        case 2:
+            printf("Em %s, temos %d unidades em estoque\nQuantas seriam retiradas?\n", produto->nome, produto->quantidade);
+            getchar();
+            scanf("%d", &j);
+            while(1){
+                if (j>produto->quantidade){
+                    printf("Numero invalido, tente novamente\n");
+                    scanf("%d", j);
+                
+                }
+                else break;
+
+            }
+            if (j == produto->quantidade){
+                remover(cliente->carrinho, i);
+            }
+            else {produto->quantidade = produto->quantidade - j;
+            printf("Removido com sucesso!\n");}
+        default:
+            printf("Numero invalido\n");
+    }
+}
+
 
 
 void menuCarrinho(Cliente *cliente, Estoque *estoque) {
@@ -137,6 +199,7 @@ void menuCarrinho(Cliente *cliente, Estoque *estoque) {
         printf("\n=== CARRINHO ===\n");
         printf("1. Adicionar item\n");
         printf("2. Listar carrinho\n");
+        printf("3. Remover item\n");
         printf("0. Voltar\n");
         printf("Escolha: ");
         scanf(" %d", &opcao);
@@ -151,4 +214,3 @@ void menuCarrinho(Cliente *cliente, Estoque *estoque) {
         }
     } while (opcao != 0);
 }
-
