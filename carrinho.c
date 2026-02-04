@@ -22,25 +22,19 @@ void adicionar_item_cliente(Cliente *cliente , Estoque *estoque){
         return;
     }
 
-    printf("Produto encontrado!");
+    printf("\n--------  Produto encontrado! ---------\n");
     //dados
-    printf("Codigo: %d\n" , item_estoque->codigo);
+    printf("--------------------------------------");
+    printf("\nCodigo: %d\n" , item_estoque->codigo);
     printf("Nome: %s\n" , item_estoque->nome);
+    printf("quantidade: %d" , item_estoque->quantidade);
+    printf("\n--------------------------------------\n");
    
 
     printf("\nDigite a quantidade que deseja adicionar ao carrinho: ");
     scanf(" %d" ,&quantidade_desejada);
 
-    // verificar se a quantidade desejada eh inferior ou igual a quantidade do estoque
-
-    //if ( estoque < quantidade desejada  ) {
-    //     dr return
-     // }
-
     //--------------------------------------------------------------------------------
-
-
-    // ADICIONAR 
 
     //verificar se item ja tem no carrinho;
 
@@ -49,21 +43,36 @@ void adicionar_item_cliente(Cliente *cliente , Estoque *estoque){
 
     while(item_carrinho != NULL){
         if (item_carrinho->produto->codigo == codigo){
-            // verificar se ja existe no carrnho , se existir adicionar na qantidade 
-            //verificar se a quantidad nn ultrapassa a quantidade do produto
-            // da return se ultrapassar
-
-            item_carrinho->qtd += quantidade_desejada;
-
-            //atualizar o estoque ? nao! apenas quando efetuarem a compra
             
-            return; // codigo encontrado
+            int quantidade_total = item_carrinho->qtd + quantidade_desejada;
+            
+            // verifica se a quantidade total não ultrapassa o estoque
+            if(quantidade_total <= item_carrinho->produto->quantidade){
+                item_carrinho->qtd = quantidade_total;  // Atualiza a quantidade
+                printf("\n-------------Produto adicionado!!!----------------\n");
+                printf("Quantidade atual no carrinho: %d\n", item_carrinho->qtd);
+                return;
+            } 
+            else {
+                printf("\n---------------Erro ao adicionar----------------------\n");
+                printf("Quantidade desejada ultrapassa o limite de produtos disponiveis\n");
+                printf("Quantidade no carrinho: %d\n", item_carrinho->qtd);
+                printf("Quantidade desejada: %d\n", quantidade_desejada);
+                printf("Quantidade total solicitada: %d\n", quantidade_total);
+                printf("Itens disponiveis em estoque: %d\n", item_carrinho->produto->quantidade);
+                return;
+            }
         }
         item_carrinho = item_carrinho->next;
-
     }
-
-    // se o produto nn estiver no carrinho ,v amos adicionar 
+    //verificar novamente
+    // para produtos que nao estao no carrinho
+    if (quantidade_desejada > item_estoque->quantidade) {
+        printf("\n-------------------------------------------------------------------\n");
+        printf("Erro: Quantidade desejada (%d) maior que estoque disponivel (%d)!\n", quantidade_desejada, item_estoque->quantidade);
+        printf("\n-------------------------------------------------------------------\n");
+        return;
+    }
 
     Carrinho *novo_item = (Carrinho*)malloc(sizeof(Carrinho));
     if (novo_item == NULL){
@@ -80,7 +89,7 @@ void adicionar_item_cliente(Cliente *cliente , Estoque *estoque){
     cliente->carrinho->next = novo_item;
 
 
-    printf("\nProduto adicionado!!!\n");
+    printf("\n-------------Produto adicionado!!!----------------\n");
     
 
 }
@@ -88,20 +97,35 @@ void adicionar_item_cliente(Cliente *cliente , Estoque *estoque){
 
 void listarItemCliente(Cliente*cabeca){
     Carrinho *carrinho_do_cliente = cabeca->carrinho->next;
+    int total_itens = 0;
+    float valor_total = 0.00;
 
     if (carrinho_do_cliente == NULL) {
         printf("O carrinho esta vazio.\n");
         return;
     }
+    
+    Carrinho *calcular = carrinho_do_cliente;
+    // contar itens total do carrinho e valor total;
+    while(calcular != NULL){
+        total_itens++;
+        valor_total += carrinho_do_cliente->qtd * calcular->produto->preco;
+        calcular = calcular->next;
+    }
+    printf("\n------------------------------------------------------\n");
+    printf("Total de itens: %-15d | Preco total: %.2f", total_itens, valor_total);
+
+  //  printf("\n-----Total de itens do carrinho: %d------\n" , total_itens);
+   // printf("--------Preco total do carrinho: %.2f" , valor_total);
 
     while(carrinho_do_cliente != NULL){
 
-        printf("\n---------------------------------------------------");
-        printf("\nNome Item: %s\n" , carrinho_do_cliente->produto->nome);
-        printf("Codigo Item: %d\n" , carrinho_do_cliente->produto->codigo);
+        printf("\n------------------------------------------------------");
+        printf("\nNome : %s\n" , carrinho_do_cliente->produto->nome);
+        printf("Codigo : %d\n" , carrinho_do_cliente->produto->codigo);
         printf("Quantidade de Itens: %d\n", carrinho_do_cliente->qtd);
+        printf("------------------------------------------------------\n");
         carrinho_do_cliente = carrinho_do_cliente->next;
-        printf("---------------------------------------------------\n");
 }
 
 }
