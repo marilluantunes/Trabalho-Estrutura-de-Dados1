@@ -211,6 +211,9 @@ void menuCarrinho(Cliente *cliente, Estoque *estoque) {
             case 2:
                 listarItemCliente(cliente);
                 break;
+            case 3:
+                remover_item(cliente,estoque);
+                break;
         }
     } while (opcao != 0);
 }
