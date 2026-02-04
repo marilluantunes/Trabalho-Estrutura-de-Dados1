@@ -152,7 +152,8 @@ void remover(Carrinho* carrinho, int i){
 
 void remover_item(Cliente * cliente, Estoque* estoque)
 {
-    int i, j;
+    int i, j, k;
+    Carrinho *carrinho_do_cliente = cliente->carrinho->next;
     if(listarItemCliente(cliente) == NULL) return; //depois disso sabemos que sempre tera valor
     printf("\nDigite o codigo de qual item gostaria de remover do carrinho\n");
     getchar();
@@ -160,32 +161,35 @@ void remover_item(Cliente * cliente, Estoque* estoque)
     Produto *produto = busca_pelo_codigo(i, estoque);
     if (produto == NULL) {
         printf("Codigo invalido\n");
-        return remover_item(cliente, estoque);
+        return;
     }
     printf("Gostaria de:\n::[1]remove-lo por completo; ou\n::[2]algumas quantidades?\n");
-    switch(i){
+    scanf(" %d", &k);
+    getchar();
+    switch(k){
         case 1:
             remover(cliente->carrinho, i);
             break;
 
         case 2:
-            printf("Em %s, temos %d unidades em estoque\nQuantas seriam retiradas?\n", produto->nome, produto->quantidade);
+            printf("Voce tem %d unidades no carrinho\nQuantas seriam retiradas?\n", cliente->carrinho->next->qtd);
+            scanf(" %d", &j);
             getchar();
-            scanf("%d", &j);
             while(1){
-                if (j>produto->quantidade){
+                if (j>cliente->carrinho->next->qtd){
                     printf("Numero invalido, tente novamente\n");
-                    scanf("%d", j);
+                    return;
                 
                 }
                 else break;
 
             }
-            if (j == produto->quantidade){
+            if (j == cliente->carrinho->next->qtd){
                 remover(cliente->carrinho, i);
             }
-            else {produto->quantidade = produto->quantidade - j;
+            else {cliente->carrinho->next->qtd = cliente->carrinho->next->qtd - j;
             printf("Removido com sucesso!\n");}
+            break;
         default:
             printf("Numero invalido\n");
     }
