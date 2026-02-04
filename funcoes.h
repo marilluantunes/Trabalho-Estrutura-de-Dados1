@@ -32,7 +32,8 @@ void inserirClienteInicio(Cliente *head,
                            const char *cpf_parametro,
                            const char *nome_parametro,
                            const char *email_parametro,
-                           const char *telefone_parametro);
+                           const char *telefone_parametro,
+                        int dia, int mes, int ano);
 void imprimirTodosClientes(Cliente *cabeca);
 void menuClientes(Cliente *cabeca);
 void removerCliente(const char *cpf, Cliente *cabeca);

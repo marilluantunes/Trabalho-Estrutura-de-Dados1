@@ -20,16 +20,11 @@ typedef struct estoque_completo{
     struct estoque_completo *prox;
 }Estoque;
 
-typedef struct Cliente {
-    char *cpf;
-    char *nome;
-    char *email;
-    char *telefone;
-    struct Cliente *next;
-
-    Carrinho *carrinho;   
-} Cliente;
-
+typedef struct {
+    int dia;
+    int mes;
+    int ano;
+} Data;
 
 typedef struct carrinho {
     Produto *produto;
@@ -37,7 +32,20 @@ typedef struct carrinho {
     struct carrinho *next;
 } Carrinho;
 
-typedef struct Cliente Cliente;
+
+typedef struct Cliente {
+    char *cpf;
+    char *nome;
+    char *email;
+    char *telefone;
+
+    Data nascimento; 
+    
+    struct Cliente *next;
+
+    Carrinho *carrinho;   
+} Cliente;
+
 
 
 

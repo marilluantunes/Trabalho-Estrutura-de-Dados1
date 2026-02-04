@@ -113,7 +113,7 @@ void listarItemCliente(Cliente*cabeca){
         calcular = calcular->next;
     }
     printf("\n------------------------------------------------------\n");
-    printf("Total de itens: %-15d | Preco total: %.2f", total_itens, valor_total);
+    printf("Total de Produtos: %-15d | Preco total: %.2f", total_itens, valor_total);
 
   //  printf("\n-----Total de itens do carrinho: %d------\n" , total_itens);
    // printf("--------Preco total do carrinho: %.2f" , valor_total);
@@ -121,9 +121,9 @@ void listarItemCliente(Cliente*cabeca){
     while(carrinho_do_cliente != NULL){
 
         printf("\n------------------------------------------------------");
-        printf("\nNome : %s\n" , carrinho_do_cliente->produto->nome);
+        printf("\nProduto: %s\n" , carrinho_do_cliente->produto->nome);
         printf("Codigo : %d\n" , carrinho_do_cliente->produto->codigo);
-        printf("Quantidade de Itens: %d\n", carrinho_do_cliente->qtd);
+        printf("Quantidade: %d\n", carrinho_do_cliente->qtd);
         printf("------------------------------------------------------\n");
         carrinho_do_cliente = carrinho_do_cliente->next;
 }

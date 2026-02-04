@@ -19,7 +19,7 @@ Cliente* criarHeadCliente(){
 //===================INSERIR CLIENTE NO INICIO DA LISTA=========================
 
 void inserirClienteInicio(Cliente *head, const char *cpf_parametro, const char *nome_parametro, 
-    const char *email_parametro , const char *telefone_parametro ){
+    const char *email_parametro , const char *telefone_parametro ,  int dia, int mes, int ano ){
 
     if (head == NULL || cpf_parametro == NULL  || nome_parametro == NULL ||
          email_parametro == NULL || telefone_parametro == NULL ){
@@ -46,6 +46,11 @@ void inserirClienteInicio(Cliente *head, const char *cpf_parametro, const char *
 
     novo->telefone = malloc(strlen(telefone_parametro) +1 );
     strcpy(novo->telefone, telefone_parametro);
+    //para a data de nascimento
+    novo->nascimento.dia = dia;
+    novo->nascimento.mes = mes;
+    novo->nascimento.ano = ano;
+
 
 // ----------CRIA CARRINHO VAZIO PARA O NOVO CLIENTE -------------
 
@@ -96,12 +101,13 @@ void imprimirTodosClientes(Cliente *cabeca) {
     printf("\n========== %d Cliente%s Cadastrado%s=========\n" ,total, total == 1 ? "" : "s", total == 1 ? "" : "s" );
 
     while (atual != NULL){
-        printf("\n-------Cliente %d----------\n", contador++);
+        printf("\n-------------Cliente %d----------------\n", contador++);
         printf("\n|      CPF: %s\n" , atual->cpf);
         printf("|      Nome: %s\n" , atual->nome);
         printf("|      Email: %s\n" , atual->email);
         printf("|      Telefone: %s\n" , atual->telefone);
-        printf("-------------------------\n");
+        printf("|      Data de nascimento: %02d/%02d/%04d\n", atual->nascimento.dia,atual->nascimento.mes,atual->nascimento.ano);
+        printf("---------------------------------------\n");
         atual = atual->next;
 
     }
@@ -422,6 +428,7 @@ void mostrar_cliente_completo(Cliente* cliente) {
     printf("CPF: %s\n", cliente->cpf);
     printf("E-MAIL: %s\n", cliente->email);
     printf("TELEFONE: %s\n", cliente->telefone);
+    printf("DATA DE NASCIMENTO: %02d/%02d/%04d\n", cliente->nascimento.dia,cliente->nascimento.mes,cliente->nascimento.ano);
     printf("--------------------------------------------------\n");
 
     
@@ -457,6 +464,8 @@ void menuClientes(Cliente *cabeca) {
 
         if (opcao == 1) {
 
+            int dia, mes , ano;
+
             char cpf_temp[15];
             char nome_temp[100];
             char email_temp[100];
@@ -476,8 +485,17 @@ void menuClientes(Cliente *cabeca) {
             printf("\nDigite o telefone: ");
             scanf(" %19s" , telefone_temp);
 
+            printf("\nDigite o dia de nascimento: ");
+            scanf("%d", &dia);
 
-            inserirClienteInicio(cabeca , cpf_temp, nome_temp, email_temp, telefone_temp);
+            printf("\nDigite o mes de nascimento: ");
+            scanf("%d", &mes);
+
+            printf("\nDigite o ano de nascimento: ");
+            scanf("%d", &ano);
+
+
+            inserirClienteInicio(cabeca , cpf_temp, nome_temp, email_temp, telefone_temp, dia, mes, ano);
 
             
         } else if (opcao == 2) {
