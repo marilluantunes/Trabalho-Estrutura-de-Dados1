@@ -66,7 +66,7 @@ Estoque* busca_recursiva_especifica(Estoque *ptr, int i){
 
     if (ptr->produto && ptr->produto->codigo == i) return ptr;
 
-    return busca_recursiva_especifica(ptr,i);
+    return busca_recursiva_especifica(ptr->prox,i);
     
 }
 
@@ -261,32 +261,45 @@ Estoque* retirar_produtos(Estoque *ptr)
     int codigo,quantos;
     char c;
     Estoque *head = ptr;
+
     printf("Quantos produtos voce gostaria de remover?\n");
     scanf("%d",&quantos);
-    for(int i = 0; i<quantos; i++){
-    printf("Digite o codigo do produto:\n");
-    scanf("%d", &codigo);
-    Estoque *no = busca_recursiva_especifica(ptr ,codigo);
-    while(1){
-    if (no == NULL) {
-        printf("Produto nao encontrado.\n");
-        continue;
-    }
-    break;}
-    printf("Produto: %s\n", no->produto->nome);
+    getchar();
+
+
+    for(int i = 0; i < quantos; i++){
+        printf("\nDigite o codigo do produto: ");
+        scanf("%d", &codigo);
+        getchar();
+
+
+        Estoque *no = busca_recursiva_especifica(head, codigo);
+
+
+
+        if(no == NULL){
+            printf("\n-------Erro: Produto nao encontrado.-------\n");
+            continue; // passa para o próximo produto
+        }
+    printf("\n-----------------------------------");
+    printf("\nProduto: %s\n", no->produto->nome);
     printf("Quantidade: %d\n", no->produto->quantidade);
     printf("Preco: R$%.2f\n", no->produto->preco);
     printf("Codigo: %d\n", no->produto->codigo);
-    printf("Deseja remover este produto? (S/N)\n");
-    scanf(" %c", &c);
+    printf("------------------------------------\n");
+
+    printf("\nDeseja remover este produto? (S/N)\n");
+    scanf("%c", &c);
+    getchar();
+
     if (c == 'S' || c == 's') {
-        head = remocao(ptr, no);
-        printf("Produto removido com sucesso!\n");
+        head = remocao(head, no);
+        printf("\n------Produto removido com sucesso!------\n");
     }
 }
+
     return head;
 }
-
 
 // ----------------------------------------------------MENU--------------------------------------------------------------------------------
 
