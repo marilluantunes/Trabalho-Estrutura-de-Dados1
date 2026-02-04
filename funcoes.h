@@ -19,6 +19,7 @@ void exibir_lista_de_estoque(Estoque *ptr);
 void editar_dados_do_produto(Estoque *ptr);
 Estoque* remocao(Estoque *ptr, Estoque *novo);
 Estoque* retirar_produtos(Estoque *ptr);
+void menuProdutos(Estoque *estoque);
 
 // ============== CARRINHO ==============
 void adicionar_item_cliente(Cliente *cliente, Estoque *estoque);
