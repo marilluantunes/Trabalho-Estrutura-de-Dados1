@@ -1,12 +1,4 @@
-#include <stdio.h>
-#include "cliente.h"
-#include <stdlib.h>
-#include <string.h>   
-#include <string.h>
-#include <ctype.h>
-#include "carrinho.h"
-#include "produtos.h"
-
+#include "funcoes.h"
 
 
 void adicionar_item_cliente(Cliente *cliente , Estoque *estoque){

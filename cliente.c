@@ -1,11 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>   
-#include "cliente.h"
-#include "carrinho.h"
-#include "produtos.h"  //comentar
-#include <string.h>
-#include <ctype.h> //para o tolower
+#include "funcoes.h"
+
 
 
 //========================CRIAR CACEÇA DA LISTA=================================

@@ -1,13 +1,12 @@
-#include <stdio.h>
-#include "cliente.h"
-#include "produtos.h"
-#include "carrinho.h"
 #include "menuProdutos.c"
+#include "funcoes.h"
+
 
 
 int main(){
     Cliente *cabeca = criarHeadCliente();
     Estoque *head = criar_estoque();
+    Cliente *escolhido;
 
     if (cabeca == NULL) {
         printf("Erro: Não foi possível inicializar o sistema de clientes\n");
@@ -36,7 +35,7 @@ int main(){
             break;
 
             case 3:
-            Cliente *escolhido = buscar_cliente(cabeca);
+            escolhido = buscar_cliente(cabeca);
             menuCarrinho(escolhido, head);
            // printf("\nSistema de Modo Compras em andamento....\n");
             break;
