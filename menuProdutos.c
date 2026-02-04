@@ -1,9 +1,4 @@
-
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "produtos.h"
+#include "funcoes.h"
 
 void menuProdutos(Estoque *estoque) {
     int opcao;
