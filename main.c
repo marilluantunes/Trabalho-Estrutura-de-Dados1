@@ -29,7 +29,7 @@ int main(){
             break;
 
             case 2:
-            menuProdutos(head);
+            menuProdutos(head,escolhidos);
           //  printf("\nSistema de produtos em andamento...\n");
             break;
 
