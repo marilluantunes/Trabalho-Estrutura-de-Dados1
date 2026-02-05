@@ -336,6 +336,31 @@ Estoque* retirar_produtos(Estoque *ptr)
     return head;
 }
 
+
+//--------------------------------- Liberar memoria alocada 
+
+int liberarEstoque(Estoque *cabeca) {
+    if (cabeca == NULL) {
+        printf("Estoque ja esta vazio.\n");
+        return 0;
+    }
+    int produtos_liberados = 0;
+    Estoque *atual = cabeca;
+    
+    while (atual != NULL) {
+        Estoque *proximo = atual->prox; //guardqa o proximo antes de liberar atual
+        
+        if (atual->produto != NULL) {
+            produtos_liberados++;
+            free(atual->produto);
+        }
+        
+        free(atual);
+    
+        atual = proximo; // avanca para o proximo no 
+    }
+    return produtos_liberados;
+}
 // ----------------------------------------------------MENU--------------------------------------------------------------------------------
 
 void menuProdutos(Estoque *estoque, Cliente *cliente) {
@@ -396,6 +421,12 @@ void menuProdutos(Estoque *estoque, Cliente *cliente) {
         
     } while (opcao != 0);
 }
+
+
+
+
+
+
 
 //----------------------------------------------------------------------------------------------------------------------------------------
 

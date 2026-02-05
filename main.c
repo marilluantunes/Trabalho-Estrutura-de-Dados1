@@ -30,13 +30,13 @@ int main(){
 
             case 2:
             menuProdutos(head,escolhido);
-          //  printf("\nSistema de produtos em andamento...\n");
             break;
 
             case 3:
             escolhido = buscar_cliente(cabeca);
-            menuCarrinho(escolhido, head);
-           // printf("\nSistema de Modo Compras em andamento....\n");
+            if (escolhido != NULL) {  //volta para menu princial se nenhum cliente for achado
+                menuCarrinho(escolhido, head);
+            }
             break;
 
             case 4:
@@ -52,9 +52,19 @@ int main(){
     } while(opcao!= 4);
 
     //----------------------------------------------------------------------------
-    // !!!!!! LEMBRAR DE COLOCAR FUNCAO PARA LIBERAR MEMORIA ALOCADA AQUI !!!!!! 
-    //----------------------------------------------------------------------------
+    // Liberacao da memoria alocada
+    //---------------------------------------------------------------------------
 
-    printf("Sistema encerrado com sucesso\n");
+    int clientes = liberarListaCliente(cabeca);
+    int produtos = liberarEstoque(head);
+
+    printf("\n--------------Liberacao concluida----------------\n");
+    printf("\n     %-5d cliente(s) liberado(s)\n", clientes);
+    printf("     %-5d produto(s) liberado(s)\n", produtos);
+    printf("------------------------------------------------\n");
+
+    printf("\n------------Sistema encerrado------------------\n");
+
+
 }
 

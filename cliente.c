@@ -536,3 +536,45 @@ void menuClientes(Cliente *cabeca) {
     while (opcao != 0);
 }
 
+//====================FUNCAO PARA LIBERAR MEMORIA ALOCADA DA LISTA CLIENTE 
+
+int liberarListaCliente(Cliente* cabeca) {
+
+    if (cabeca == NULL) {
+        printf("Lista de clientes já está vazia.\n");
+        return 0;
+    }
+
+    int clientes_liberados = 0;
+    Cliente* atual = cabeca->next; 
+
+    while (atual != NULL) {
+        clientes_liberados++;
+        Cliente* prox = atual->next;  // salva o proximo antes de liberar
+
+        // liberar carrinho
+        if (atual->carrinho != NULL) {
+            Carrinho* c = atual->carrinho->next;  // pula a cabeca vazia
+            while (c != NULL) {
+                Carrinho* temp = c;
+                c = c->next;  
+                free(temp);   
+            }
+            free(atual->carrinho);  // libera a cabeca da lista carrinho
+        }
+
+        // strings alocadas
+        free(atual->cpf);
+        free(atual->nome);
+        free(atual->email);
+        free(atual->telefone);
+
+        // cliente
+        free(atual);
+
+        atual = prox;  
+    }
+
+    free(cabeca);
+    return clientes_liberados;
+}
