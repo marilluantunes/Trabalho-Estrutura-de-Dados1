@@ -17,6 +17,7 @@ Estoque* criar_estoque();
 void cadastrar_produto(Estoque *ptr);
 void exibir_lista_de_estoque(Estoque *ptr);
 void editar_dados_do_produto(Estoque *ptr);
+void verificar_produto_excluir(Carrinho *carrinho, int i);
 Estoque* remocao(Estoque *ptr, Estoque *novo);
 Estoque* retirar_produtos(Estoque *ptr);
 void menuProdutos(Estoque *estoque);
