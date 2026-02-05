@@ -16,7 +16,7 @@ Produto* busca_pelo_codigo(int x, Estoque *ptr){
     }
     }
 
-Produto* criar_struct(Estoque *primeiro)
+Produto* criar_struct(Estoque *primeiro) //este
 {
     int i;
     Produto *ptr = (Produto*)malloc(sizeof(Produto));
@@ -32,6 +32,10 @@ Produto* criar_struct(Estoque *primeiro)
             if (k != NULL){ //se o codigo ja estiver armazenado no estoque, este caso vai acrescentar mais produtos
                 printf("Produto ja existente no sitema.\nQuantos deseja acrescentar?\n--> ");
                 scanf("%d", &i);
+                if (i<0){
+                    printf("Numero invalido\n");
+                    return NULL;
+                }
                 k-> quantidade += i;
                 printf("Produto incrementado com sucesso!\n");
                 free(k);
@@ -99,11 +103,17 @@ Estoque* criar_estoque()
     }
 }
 
-void cadastrar_produto(Estoque *ptr){                 //o *head deve ser no inicio o ptr -> prox = NULL do criar_estoque e *novo 
+void cadastrar_produto(Estoque *ptr){                 //este 
     int quantidade;
     printf("Quantos produtos serao cadastrados?\n--> ");
     scanf("%d", &quantidade);
-    for (int i = 0; i < quantidade; i++){             //deve ser o ptr -> produto = NULL
+    if (quantidade == 0) return;
+    if (quantidade<0){
+        printf("Numero ivalido\n");
+        cadastrar_produto(ptr);
+        return;
+    }
+    for (int i = 0; i < quantidade; i++){             
 
     if (i !=0) printf("::Proximo produto::\n");
 
@@ -111,18 +121,17 @@ void cadastrar_produto(Estoque *ptr){                 //o *head deve ser no inic
     ptr-> produto = criar_struct(ptr);}
 
     else{
-        Estoque *novo = criar_estoque();           //criar mais um node e acrescentar produto ao estoque
+        Estoque *novo = criar_estoque();           
 
-        if (novo == NULL) return; //caso falhe, retornara null e assim a funcao cadastrar_produto acaba
+        if (novo == NULL) return; 
         novo -> produto = criar_struct(ptr);  
 
-            if (novo ->produto == NULL){ //caso o produto a ser acrescentado ja exista entao eh incrementado a esse produto e o novo estoque
-                free(novo);
+            if (novo ->produto == NULL){ 
                 continue;}             
 
-        Estoque *maisum = busca_recursiva(ptr);     //achar o ultimo valor do estoque e associar a um ponteiro
+        Estoque *maisum = busca_recursiva(ptr);     
         maisum->prox = novo; 
-        novo->prev = maisum;                  //associar a nova struct de estoque(com o produto) com o final do estoque
+        novo->prev = maisum;                  
     }                              
 }
 }
@@ -149,16 +158,17 @@ void exibir_lista_de_estoque(Estoque *ptr){
     }
 
 
-void editar_dados_do_produto(Estoque *ptr)
+void editar_dados_do_produto(Estoque *ptr, Cliente * cliente) //este
 {
-    int i, j;
-    printf("Digite o cogido do produto\n");
+    int i, j, k;
+    char c;
+    printf("Digite o codigo do produto\n");
     scanf("%d", &i);
     Produto* n = busca_pelo_codigo(i, ptr);
 
     if (n==NULL){
         printf("Produto nao encontrado\n");
-        editar_dados_do_produto(ptr);
+        editar_dados_do_produto(ptr, cliente);
     }
 
     while(1)
@@ -183,7 +193,21 @@ void editar_dados_do_produto(Estoque *ptr)
 
     if(j == 2){;
         printf("Digite a nova quantidade\n-->");
-        scanf("%d", &n->quantidade);
+        scanf("%d", &k);
+        if(k <= 0){
+            printf("Numero invalido\n");
+            return;
+        }
+        if(k<n->quantidade){
+            printf("Se a quantidade do produto se tornar %d, pode ser que o produto de alguns carrinhos seja alterado.\nDeseja prosseguir?\n(S/N)-->", k);
+            scanf(" %c", &c);
+            if(c == 'S'||c =='s'){
+                n->quantidade = k;
+                verificar_produto_excluir(cliente->carrinho, k);
+            }
+            else return;
+        }
+        n->quantidade = k;
         printf("\n");
         return;
     }
@@ -431,3 +455,4 @@ void retirar_produtos(Estoque *ptr)
     
     return 0;
 }*/
+
