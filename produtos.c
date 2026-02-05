@@ -157,6 +157,17 @@ void exibir_lista_de_estoque(Estoque *ptr){
         }
     }
 
+void verificar_produto_excluir(Carrinho *carrinho, int i){ //esta -- funcao nova
+    if(carrinho->next == NULL) return;
+    else{
+    if(carrinho->next->qtd > i){
+        carrinho->next->qtd = i;
+    }
+    else{carrinho = carrinho->next;} //se o numero no carrinho for menor ou igual, entao nada acontece
+}   
+    verificar_produto_excluir(carrinho->next, i);
+    return;
+}
 
 void editar_dados_do_produto(Estoque *ptr, Cliente * cliente) //este
 {
@@ -455,4 +466,5 @@ void retirar_produtos(Estoque *ptr)
     
     return 0;
 }*/
+
 
