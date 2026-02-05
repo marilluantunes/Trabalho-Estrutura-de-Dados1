@@ -338,7 +338,7 @@ Estoque* retirar_produtos(Estoque *ptr)
 
 // ----------------------------------------------------MENU--------------------------------------------------------------------------------
 
-void menuProdutos(Estoque *estoque) {
+void menuProdutos(Estoque *estoque, Cliente *cliente) {
     int opcao;
     
     do {
@@ -377,7 +377,7 @@ void menuProdutos(Estoque *estoque) {
                 break;
             }
             case 4:
-                editar_dados_do_produto(estoque);
+                editar_dados_do_produto(estoque,cliente);
                 break;
             case 5:
                 retirar_produtos(estoque);
@@ -466,5 +466,6 @@ void retirar_produtos(Estoque *ptr)
     
     return 0;
 }*/
+
 
 
