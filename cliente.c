@@ -1,10 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>   
-#include "cliente.h"
-#include "produtos.h"  //comentar
-#include <string.h>
-#include <ctype.h> //para o tolower
+#include "funcoes.h"
+
+
 
 //========================CRIAR CACEÇA DA LISTA=================================
 Cliente* criarHeadCliente(){
@@ -23,7 +19,7 @@ Cliente* criarHeadCliente(){
 //===================INSERIR CLIENTE NO INICIO DA LISTA=========================
 
 void inserirClienteInicio(Cliente *head, const char *cpf_parametro, const char *nome_parametro, 
-    const char *email_parametro , const char *telefone_parametro ){
+    const char *email_parametro , const char *telefone_parametro ,  int dia, int mes, int ano ){
 
     if (head == NULL || cpf_parametro == NULL  || nome_parametro == NULL ||
          email_parametro == NULL || telefone_parametro == NULL ){
@@ -50,17 +46,24 @@ void inserirClienteInicio(Cliente *head, const char *cpf_parametro, const char *
 
     novo->telefone = malloc(strlen(telefone_parametro) +1 );
     strcpy(novo->telefone, telefone_parametro);
+    //para a data de nascimento
+    novo->nascimento.dia = dia;
+    novo->nascimento.mes = mes;
+    novo->nascimento.ano = ano;
+
 
 // ----------CRIA CARRINHO VAZIO PARA O NOVO CLIENTE -------------
 
-    novo->carrinho = malloc(sizeof(Carrinho)); //comentar
-    if (novo->carrinho == NULL){              //comentar
-        printf("Erro ao alocar memoria\n");   //comentar
-        free(novo);                          //comentar
-        return;                             //comentar
+    novo->carrinho = malloc(sizeof(Carrinho));
+    if (novo->carrinho == NULL){
+        printf("Erro ao alocar memoria\n");
+        free(novo);
+        return;
     }
-    novo->carrinho->prox = NULL;          //comentar
 
+    novo->carrinho->produto = NULL;
+    novo->carrinho->qtd = 0;
+    novo->carrinho->next = NULL;
 
     novo->next = head->next;
     head->next = novo;
@@ -98,12 +101,13 @@ void imprimirTodosClientes(Cliente *cabeca) {
     printf("\n========== %d Cliente%s Cadastrado%s=========\n" ,total, total == 1 ? "" : "s", total == 1 ? "" : "s" );
 
     while (atual != NULL){
-        printf("\n-------Cliente %d----------\n", contador++);
+        printf("\n-------------Cliente %d----------------\n", contador++);
         printf("\n|      CPF: %s\n" , atual->cpf);
         printf("|      Nome: %s\n" , atual->nome);
         printf("|      Email: %s\n" , atual->email);
         printf("|      Telefone: %s\n" , atual->telefone);
-        printf("-------------------------\n");
+        printf("|      Data de nascimento: %02d/%02d/%04d\n", atual->nascimento.dia,atual->nascimento.mes,atual->nascimento.ano);
+        printf("---------------------------------------\n");
         atual = atual->next;
 
     }
@@ -424,6 +428,7 @@ void mostrar_cliente_completo(Cliente* cliente) {
     printf("CPF: %s\n", cliente->cpf);
     printf("E-MAIL: %s\n", cliente->email);
     printf("TELEFONE: %s\n", cliente->telefone);
+    printf("DATA DE NASCIMENTO: %02d/%02d/%04d\n", cliente->nascimento.dia,cliente->nascimento.mes,cliente->nascimento.ano);
     printf("--------------------------------------------------\n");
 
     
@@ -451,13 +456,15 @@ void menuClientes(Cliente *cabeca) {
         printf("3.  Remover\n");
         printf("4.  Editar\n");
         printf("5.  Buscar\n");
-        printf("6.  Voltar\n");
+        printf("0.  Voltar\n");
         printf("-----------------------------------\n");
         printf("Escolha uma opcao: ");
         scanf(" %d", &opcao);
 
 
         if (opcao == 1) {
+
+            int dia, mes , ano;
 
             char cpf_temp[15];
             char nome_temp[100];
@@ -478,8 +485,17 @@ void menuClientes(Cliente *cabeca) {
             printf("\nDigite o telefone: ");
             scanf(" %19s" , telefone_temp);
 
+            printf("\nDigite o dia de nascimento: ");
+            scanf("%d", &dia);
 
-            inserirClienteInicio(cabeca , cpf_temp, nome_temp, email_temp, telefone_temp);
+            printf("\nDigite o mes de nascimento: ");
+            scanf("%d", &mes);
+
+            printf("\nDigite o ano de nascimento: ");
+            scanf("%d", &ano);
+
+
+            inserirClienteInicio(cabeca , cpf_temp, nome_temp, email_temp, telefone_temp, dia, mes, ano);
 
             
         } else if (opcao == 2) {
@@ -508,7 +524,7 @@ void menuClientes(Cliente *cabeca) {
             buscar_cliente(cabeca);
         } 
 
-        else if (opcao == 6) {
+        else if (opcao == 0) {
             printf("Voltando ao menu principal...\n");
         }
         
@@ -517,6 +533,48 @@ void menuClientes(Cliente *cabeca) {
         }
     } 
     
-    while (opcao != 6);
+    while (opcao != 0);
 }
 
+//====================FUNCAO PARA LIBERAR MEMORIA ALOCADA DA LISTA CLIENTE 
+
+int liberarListaCliente(Cliente* cabeca) {
+
+    if (cabeca == NULL) {
+        printf("Lista de clientes já está vazia.\n");
+        return 0;
+    }
+
+    int clientes_liberados = 0;
+    Cliente* atual = cabeca->next; 
+
+    while (atual != NULL) {
+        clientes_liberados++;
+        Cliente* prox = atual->next;  // salva o proximo antes de liberar
+
+        // liberar carrinho
+        if (atual->carrinho != NULL) {
+            Carrinho* c = atual->carrinho->next;  // pula a cabeca vazia
+            while (c != NULL) {
+                Carrinho* temp = c;
+                c = c->next;  
+                free(temp);   
+            }
+            free(atual->carrinho);  // libera a cabeca da lista carrinho
+        }
+
+        // strings alocadas
+        free(atual->cpf);
+        free(atual->nome);
+        free(atual->email);
+        free(atual->telefone);
+
+        // cliente
+        free(atual);
+
+        atual = prox;  
+    }
+
+    free(cabeca);
+    return clientes_liberados;
+}
